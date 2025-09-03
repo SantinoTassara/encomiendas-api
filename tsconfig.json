@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    // Entrada y salida
+    "rootDir": "./src",
+    "outDir": "./dist",
+    // Entorno
+    "module": "CommonJS",
+    "target": "ES2020",
+    "lib": [
+      "ES2020"
+    ],
+    "types": [
+      "node"
+    ],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    // Outputs útiles
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    // Reglas de chequeo
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    // Recomendadas
+    "skipLibCheck": true,
+    // Consistencia de mayúsculas/minúsculas en nombres de archivos
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
