@@ -1,16 +1,16 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../config/database";
+import { Empresa } from "./empresa.model";
 
 export class Encomienda extends Model {
     public id!: number;
     public fecha!: Date;
     public sector!: string;
-    public usuario!: string;
+    public usuarioId!: number;
     public refactura?: boolean;
-    public clienteRefactura?: string;
+    public empresaId!: number;
     public tipoTramite!: string;
     public descripcion!: string;
-    public direccion!: string;
     public estado!: string;
 }
 

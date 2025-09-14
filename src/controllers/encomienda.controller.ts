@@ -41,5 +41,17 @@ export class EncomiendaController {
             res.status(500).json({ message: "Error al eliminar la encomienda", error });
         }
     }
-}
+
+    async envioEmail(req: Request, res: Response): Promise<void> {
+        try {
+            const { email } = req.body;
+            if (!autenticacionUsuario) {
+                res.status(404).render("login", {
+                    mostrarModal: true,
+                    modalTitle: "Recuperar contraseña",
+                    modalMessage: "Usuario no encontrado"
+                });
+                return
+            }
+        }
 export default new EncomiendaController();
