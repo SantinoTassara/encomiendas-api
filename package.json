@@ -22,7 +22,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.5.2",
     "@types/sequelize": "^4.28.20",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",

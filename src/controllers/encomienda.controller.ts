@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Encomienda } from "../models/encomienda.model";
+import { transporter } from "../config/mailer";
 
 export class EncomiendaController {
     public async getEncomiendas(req: Request, res: Response): Promise<void> {
@@ -45,13 +46,21 @@ export class EncomiendaController {
     async envioEmail(req: Request, res: Response): Promise<void> {
         try {
             const { email } = req.body;
-            if (!autenticacionUsuario) {
-                res.status(404).render("login", {
-                    mostrarModal: true,
-                    modalTitle: "Recuperar contraseña",
-                    modalMessage: "Usuario no encontrado"
-                });
-                return
-            }
+
+            const info = await transporter.sendMail({
+                from: '"Mail Ruta" <mailtester0@gmail.com>',
+                to: email,
+                subject: "SMSRUTA",
+                html:
+                    `<h1>Mail tester</h1>`
+            });
+
+            res.status(200).json({ message: "Email enviado" });
+
+        } catch (error) {
+            res.status(500).json({ message: "Error al enviar el email", error });
         }
+    }
+}
+
 export default new EncomiendaController();

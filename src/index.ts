@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "./config/env";
 import { testConnection, sequelize } from "./config/database";
+import encomiendaRoutes from "./routes/encomienda.routes";
 
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Bienvenido al sistema de envios de SMS");
 });
+app.use("/", encomiendaRoutes);
 
 // Levantar servidor
 app.listen(config.port, async () => {

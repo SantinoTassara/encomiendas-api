@@ -2,14 +2,17 @@ import { Sequelize } from "sequelize";
 import { config } from "./env";
 
 export const sequelize = new Sequelize(
-    "encomiendas_db",                // Nombre de la DB
-    config.db.user,                  // Usuario
-    config.db.password,              // Contraseña
+    "encomiendas_db",
+    config.db.user,
+    config.db.password,
     {
         host: config.db.host,
         dialect: "mysql",
-        logging: false,                // Quita logs de SQL (opcional)
-    }
+        logging: false,
+        dialectOptions: {
+            ssl: false
+        }
+    },
 );
 
 // Probar conexión

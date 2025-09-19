@@ -9,6 +9,9 @@ const setup = async () => {
             host: config.db.host,
             dialect: "mysql",
             logging: false,
+            dialectOptions: {
+                ssl: false
+            }
         });
 
         // Crear la base de datos si no existe
