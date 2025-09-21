@@ -39,3 +39,4 @@ export class EmpresaController {
     }
 
 }
+export default new EmpresaController();
