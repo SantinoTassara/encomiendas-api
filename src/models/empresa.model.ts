@@ -4,7 +4,7 @@ import { sequelize } from "../config/database";
 export class Empresa extends Model {
     public id!: number;
     public nombre!: string
-    public correo!: string;
+    public correos!: string;
     public direcciones!: string;
 }
 
@@ -19,7 +19,7 @@ Empresa.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        correo: {
+        correos: {
             type: DataTypes.STRING,
             allowNull: false,
         },

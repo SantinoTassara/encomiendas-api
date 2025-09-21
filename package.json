@@ -4,10 +4,11 @@
   "description": "Api para un sistema de encomiendas y envio de paquetes",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon --watch src --exec ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "install": "npm install"
+    "install": "npm install",
+    "setup": "ts-node src/setup.ts"
   },
   "author": "Santino Tassara Franco",
   "license": "ISC",
