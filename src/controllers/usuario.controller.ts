@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { Usuario } from "../models/usuario.model";
 
+
+//TODO ESTO DESPUES VUELA PORQUE VAMOS A USAR LOS USUARIOS DE ACTIVE DIRECTORY
 export class UsuarioController {
     public async getUsuarios(req: Request, res: Response): Promise<void> {
         try {

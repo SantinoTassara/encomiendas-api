@@ -3,8 +3,7 @@ import { sequelize } from "../config/database";
 
 export class Empresa extends Model {
     public id!: number;
-    public nombre!: string
-    public correos!: string;
+    public nombre!: string;
     public direcciones!: string;
 }
 
@@ -16,10 +15,6 @@ Empresa.init(
             primaryKey: true,
         },
         nombre: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        correos: {
             type: DataTypes.STRING,
             allowNull: false,
         },

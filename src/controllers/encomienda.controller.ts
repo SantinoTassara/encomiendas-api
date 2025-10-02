@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Encomienda } from "../models/encomienda.model";
 import { transporter } from "../config/mailer";
+import { where } from "sequelize";
 
 export class EncomiendaController {
     public async getEncomiendas(req: Request, res: Response): Promise<void> {
@@ -19,8 +20,8 @@ export class EncomiendaController {
 
     public async createEncomienda(req: Request, res: Response): Promise<void> {
         try {
-            const { fecha, sector, usuarioCarga, refactura, clienteRefactura, tipoTramite, descripcionTramite, direccion, estado } = req.body;
-            const newEncomienda = await Encomienda.create({ fecha, sector, usuarioCarga, refactura, clienteRefactura, tipoTramite, descripcionTramite, direccion, estado });
+            const { fecha, sector, usuarioId, refactura, tipoTramite, descripcion, direccion, estado, correo } = req.body;
+            const newEncomienda = await Encomienda.create({ fecha, sector, usuarioId, refactura, tipoTramite, descripcion, direccion, estado, correo });
             res.status(201).json(newEncomienda);
         } catch (error) {
             res.status(500).json({ message: "Error al crear la encomienda", error });
@@ -32,12 +33,18 @@ export class EncomiendaController {
     public async deleteEncomienda(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const deleted = await Encomienda.destroy({ where: { id } });
-            if (deleted) {
-                res.status(200).json({ message: "Encomienda eliminada" });
-            } else {
-                res.status(404).json({ message: "Encomienda no encontrada" });
+
+            const ruta = await Encomienda.findOne({ where: { id } });
+            if (!ruta) {
+                res.status(404).json({ message: "La Ruta de envio no existe" });
+                return;
             }
+
+            Encomienda.update({ estado: "Eliminado" }, { where: { id } });
+            res.status(200).json({ message: "Ruta eliminada" });
+
+
+
         } catch (error) {
             res.status(500).json({ message: "Error al eliminar la encomienda", error });
         }
@@ -46,13 +53,14 @@ export class EncomiendaController {
     async envioEmail(req: Request, res: Response): Promise<void> {
         try {
             const { email } = req.body;
+            const { contenido, asunto } = req.body
 
             const info = await transporter.sendMail({
                 from: '"Mail Ruta" <mailtester0@gmail.com>',
                 to: email,
-                subject: "SMSRUTA",
+                subject: asunto,
                 html:
-                    `<h1>Mail tester</h1>`
+                    `${contenido}`
             });
 
             res.status(200).json({ message: "Email enviado" });
@@ -69,7 +77,7 @@ export class EncomiendaController {
 
             const ruta = await Encomienda.findOne({ where: { id } })
             if (!ruta) {
-                res.status(404).json({ message: "El usuario no existe" })
+                res.status(404).json({ message: "La ruta no existe" })
             }
             await Encomienda.update({ estado }, { where: { id } })
             res.status(200).json({ message: "Estado actualizado" })
@@ -77,6 +85,31 @@ export class EncomiendaController {
         } catch (error) {
             res.status(500).json({ message: "Error al actualizar el estado", error });
         }
+    }
+
+    public async paqueteEnviado(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params
+            const ruta = await Encomienda.findOne({ where: { id } })
+
+            if (!ruta) {
+                res.status(404).json({ message: "La ruta no existe..." })
+            }
+
+            const contenido = "El Pedido esta en viaje, Esperamos su confirmacion de entrega"
+
+            await Encomienda.update({ estado: "Enviado" }, { where: { id } })
+            await this.envioEmail(
+                { ...req, body: { email: ruta?.correo, contenido, asunto: "El Pedido Fue Enviado" } } as Request,
+                res
+            );
+
+            res.status(200).json({ message: "Estado cambiado a enviado y email enviado" })
+
+        } catch (error) {
+            res.status(500).json({ message: "Error al cambiar de estado a enviado" })
+        }
+
     }
 }
 export default new EncomiendaController();

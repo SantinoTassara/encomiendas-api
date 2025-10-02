@@ -11,7 +11,9 @@ export class Encomienda extends Model {
     public empresaId!: number;
     public tipoTramite!: string;
     public descripcion!: string;
+    public direccion!: string;
     public estado!: string;
+    public correo!: string
 }
 
 Encomienda.init(
@@ -30,8 +32,8 @@ Encomienda.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        usuarioCarga: {
-            type: DataTypes.STRING,
+        usuarioId: {
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         refactura: {
@@ -39,15 +41,15 @@ Encomienda.init(
             allowNull: false,
             defaultValue: false,
         },
-        clienteRefactura: {
-            type: DataTypes.STRING,
-            allowNull: true,
+        empresaId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
         tipoTramite: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        descripcionTramite: {
+        descripcion: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -60,6 +62,11 @@ Encomienda.init(
             allowNull: false,
             defaultValue: "Pendiente",
         },
+        correo: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        }
     },
     {
         sequelize,
