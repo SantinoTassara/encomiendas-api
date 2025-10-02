@@ -56,7 +56,7 @@ export class EncomiendaController {
             const { contenido, asunto } = req.body
 
             const info = await transporter.sendMail({
-                from: '"Mail Ruta" <mailtester0@gmail.com>',
+                from: '"SMS" <mailtester0@gmail.com>',
                 to: email,
                 subject: asunto,
                 html:
@@ -109,7 +109,26 @@ export class EncomiendaController {
         } catch (error) {
             res.status(500).json({ message: "Error al cambiar de estado a enviado" })
         }
+    }
 
+    public async paqueteEntregado(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params
+            const ruta = await Encomienda.findOne({ where: { id } })
+            if (!ruta) {
+                res.status(404).json({ message: "La ruta no existe..." })
+            }
+            const contenido = "El Pedido fue entregado, Gracias por confiar en nosotros"
+
+            await Encomienda.update({ estado: "Entregado" }, { where: { id } })
+            await this.envioEmail(
+                { ...req, body: { email: ruta?.correo, contenido, asunto: "El Pedido Fue Entregado" } } as Request,
+                res
+            );
+            res.status(200).json({ message: "Estado cambiado a entregado y email enviado" })
+        } catch (error) {
+            res.status(500).json({ message: "Error al cambiar de estado a entregado" })
+        }
     }
 }
 export default new EncomiendaController();

@@ -5,6 +5,7 @@ export class Empresa extends Model {
     public id!: number;
     public nombre!: string;
     public direcciones!: string;
+    public estado!: string;
 }
 
 Empresa.init(
@@ -22,6 +23,11 @@ Empresa.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        estado: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: "Activo"
+        }
     },
     {
         sequelize,

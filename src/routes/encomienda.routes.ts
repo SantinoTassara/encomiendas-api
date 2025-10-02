@@ -8,6 +8,7 @@ router.get("/encomiendas", (req: Request, res: Response) => EncomiendaController
 router.post("/encomiendas", (req: Request, res: Response) => EncomiendaController.createEncomienda(req, res));
 router.delete("/encomiendas/:id", (req: Request, res: Response) => EncomiendaController.deleteEncomienda(req, res));
 router.post("/encomiendas/paqueteEnvido", (req: Request, res: Response) => EncomiendaController.paqueteEnviado(req, res));
+router.post("/encomiendas/paqueteRecibido", (req: Request, res: Response) => EncomiendaController.paqueteEntregado(req, res));
 
 
 export default router;
