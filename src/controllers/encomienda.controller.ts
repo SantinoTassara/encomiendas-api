@@ -29,7 +29,7 @@ export class EncomiendaController {
     }
 
 
-    //MAS ADELANTE CONVERTIR ESTE DELETE EN SOFT DELETE
+    //soft delete
     public async deleteEncomienda(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
